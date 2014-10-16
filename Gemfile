@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "rake"
 gem "cucumber"
-gem "rspec"
+gem "rspec",  "~> 2.0"
 gem "aruba"
 gem "nokogiri"
 gem "simplecov"

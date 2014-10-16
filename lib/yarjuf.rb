@@ -34,7 +34,7 @@ class JUnit < RSpec::Core::Formatters::BaseFormatter
 
   def add_to_test_suite_results(example)
     suite_name = JUnit.root_group_name_for example
-    @test_suite_results[suite_name] = [] unless @test_suite_results.keys.include? suite_name
+    @test_suite_results[suite_name] ||= []
     @test_suite_results[suite_name] << example
   end
 
@@ -57,6 +57,10 @@ class JUnit < RSpec::Core::Formatters::BaseFormatter
       current_example_group = current_example_group[:example_group]
     end
     group_hierarchy.first[:description]
+  end
+
+  def self.classname_for(example)
+    example.file_path.sub(%r{\.[^/]*\Z}, "").gsub("/", ".").gsub(%r{\A\.+|\.+\Z}, "")
   end
 
   #methods to build the xml for test suites and individual tests
@@ -95,7 +99,7 @@ class JUnit < RSpec::Core::Formatters::BaseFormatter
     execution_time = test.metadata[:execution_result][:run_time]
     test_status = test.metadata[:execution_result][:status]
 
-    @builder.testcase :name => test_name, :time => execution_time do
+    @builder.testcase :classname => JUnit.classname_for(test), :name => test_name, :time => execution_time do
       case test_status
       when "pending" then @builder.skipped
       when "failed" then build_failed_test test
@@ -111,4 +115,3 @@ class JUnit < RSpec::Core::Formatters::BaseFormatter
     end
   end
 end
-

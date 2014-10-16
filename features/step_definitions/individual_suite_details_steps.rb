@@ -24,6 +24,6 @@ end
 
 Then /^the junit output testsuite element contains a timestamp of each suite$/ do
   step 'I parse the junit results file'
-  @results.at_xpath("/testsuites/testsuite[@name='suite one']/@timestamp").value.should match /\d{4}-\d{2}-\d{2}T\d+:\d+:\d+\+\d+:\d+/
-  @results.at_xpath("/testsuites/testsuite[@name='suite two']/@timestamp").value.should match /\d{4}-\d{2}-\d{2}T\d+:\d+:\d+\+\d+:\d+/
+  @results.at_xpath("/testsuites/testsuite[@name='suite one']/@timestamp").value.should match /\d{4}-\d{2}-\d{2}T\d+:\d+:\d+[\+-]\d+:\d+/
+  @results.at_xpath("/testsuites/testsuite[@name='suite two']/@timestamp").value.should match /\d{4}-\d{2}-\d{2}T\d+:\d+:\d+[\+-]\d+:\d+/
 end
