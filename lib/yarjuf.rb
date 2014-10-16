@@ -50,13 +50,7 @@ class JUnit < RSpec::Core::Formatters::BaseFormatter
   end
 
   def self.root_group_name_for(example)
-    group_hierarchy = []
-    current_example_group = example.metadata[:example_group]
-    until current_example_group.nil? do
-      group_hierarchy.unshift current_example_group
-      current_example_group = current_example_group[:example_group]
-    end
-    group_hierarchy.first[:description]
+    JUnit.classname_for(example)
   end
 
   def self.classname_for(example)
